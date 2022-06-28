@@ -1,0 +1,68 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato&family=Noto+Sans&display=swap');
+
+:root {
+    box-sizing: border-box;
+    font-family: 'Noto Sans', sans-serif, 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    --clr-red: #cb534f;
+    --clr-blue: #4faed9;
+    --clr-yellow: #eac400;
+    --clr-green: #8BF27A;
+    --clr-orange: #f7c162;
+}
+
+.red {
+    color: var(--clr-red);
+}
+
+.yellow {
+    color: var(--clr-yellow);
+}
+
+.blue {
+    color: var(--clr-blue);
+}
+
+.container {
+    display:flex;
+    flex-direction: column;
+    gap: 4px;
+    align-items: center;
+    margin-top: 20vh;
+}
+
+.grid-container {
+    padding: 4px;
+    display: grid;
+    height: 260px;
+    width: 260px;
+    background-color: antiquewhite;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    place-items: center;
+    border-radius: 4px;
+}
+
+.cell {
+    background-color: white;
+    height: 80px;
+    width: 80px;
+}
+
+.control-container {
+    display: flex;
+    gap: 8px;
+}
+
+button {
+    border: none;
+    padding: 12px;
+    border-radius: 4px;
+}
+
+.pvp {
+    background-color: var(--clr-green);
+}
+
+.bot-match {
+    background-color: var(--clr-yellow) ;
+}
