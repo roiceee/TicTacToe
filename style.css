@@ -5,7 +5,7 @@
     font-family: 'Noto Sans', sans-serif, 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     --clr-red: #cb534f;
     --clr-blue: #4faed9;
-    --clr-yellow: #eac400;
+    --clr-yellow: #d7b300;
     --clr-green: #8BF27A;
     --clr-orange: #f7c162;
 }
@@ -84,4 +84,8 @@ button {
 
 .game-mode::before{
     content: "Current mode: "
+}
+
+h6 {
+    font-size: 24px;
 }
