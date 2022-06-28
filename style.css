@@ -10,6 +10,10 @@
     --clr-orange: #f7c162;
 }
 
+body {
+    background: antiquewhite;
+}
+
 .red {
     color: var(--clr-red);
 }
@@ -48,6 +52,10 @@
     width: 80px;
 }
 
+.cell:hover {
+    cursor: crosshair;
+}
+
 .control-container {
     display: flex;
     gap: 8px;
@@ -65,4 +73,12 @@ button {
 
 .bot-match {
     background-color: var(--clr-yellow) ;
+}
+
+.current-turn::after{
+    content: "'s turn"
+}
+
+.game-mode::before{
+    content: "Current mode: "
 }
