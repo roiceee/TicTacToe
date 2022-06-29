@@ -24,7 +24,7 @@ let playerTwo;
 const playerX = () => {
     let score = 0;
     const addScore = () => score+=1;
-    const place = () =>{return "X"}
+    const place = () => {return "X"}
     return {
         place,
         addScore,
@@ -47,27 +47,55 @@ function initializePVP() {
     playerTwo = player0();
 }
 
-function addCellEvents() {
+ function addCellEvents() {
     const cells = document.querySelectorAll(".cell");
     cells.forEach((cell) => {
         cell.addEventListener('click', (e) => {
             if (cell.getAttribute("data-marked") === "true") {
                 return;
             }
-            cell.setAttribute('data-marked', "true");
-            const cellIndex = cell.getAttribute("data-index");
-            const currentPlayer = returnPlayerTurn();
-            addToScoreBoard(currentPlayer, cellIndex);
-            addMarktoDom(currentPlayer, cell);
-            changeTurn();
+             mainEvents(cell);
         })
     })
 }
 
+async function mainEvents(cell) {
+    cell.setAttribute('data-marked', "true");
+    const cellIndex = cell.getAttribute("data-index");
+    const currentPlayer = returnPlayerTurn();
+    addToScoreBoard(currentPlayer, cellIndex);
+    await addMarktoDom(currentPlayer, cell);
+    changeTurn();
+    if (checkWinner(currentPlayer)){
+        displayWinner(currentPlayer);
+        setTimeout(() => {
+            refreshCells();
+        }, 3000);
+        //add score
+}
+}
+
+function displayWinner(player) {
+    const currentTurnIndicator = document.querySelector(".current-turn");
+    currentTurnIndicator.textContent = player.place() + " Wins!";
+}
+
+function refreshCells() {
+    const cells = document.querySelectorAll(".cell");
+    cells.forEach((cell) => {
+        cell.setAttribute('data-marked', "false");
+        cell.textContent = "";
+
+    })
+    const currentTurnIndicator = document.querySelector(".current-turn");
+    currentTurnIndicator.textContent = "X's turn!";
+}
+
+
 function changeTurn() {
     const player = returnNextTurn();
     const currentTurnIndicator = document.querySelector(".current-turn");
-    currentTurnIndicator.textContent = player.place();
+    currentTurnIndicator.textContent = player.place() + "'s turn!";
     
     if (turn) {
         turn = false;
@@ -94,15 +122,45 @@ function addToScoreBoard(player, index) {
     scoreBoard[index] = player.place();
 }
 
-function addMarktoDom(player, cell) { 
-    cell.textContent = player.place();
-    cell.style.fontSize = "48px";
-    if (turn) {
-        cell.style.color = "var(--clr-red)";
-        return;
-    }
-    cell.style.color = "var(--clr-blue)";
+async function addMarktoDom(player, cell) { 
+    return new Promise((resolve, reject) => {
+        cell.textContent = player.place();
+        cell.style.fontSize = "48px";
+        if (turn) {
+            cell.style.color = "var(--clr-red)";
+            resolve();
+            return;
+        }
+        cell.style.color = "var(--clr-blue)";
+        resolve();
+    })
+   
+}
+
+function checkWinner(player) {
+    const move = player.place();
+    return checkHorizontal(move) || checkVertical(move) || checkDiagonal(move);
+}
+
+function checkHorizontal(move) {
+    return (scoreBoard[0] === move && scoreBoard[1] === move && scoreBoard[2] === move) ||
+    (scoreBoard[3] === move && scoreBoard[4] === move && scoreBoard[5] === move) ||
+    (scoreBoard[6] === move && scoreBoard[7] === move && scoreBoard[8] === move);
+}
+
+function checkVertical(move) {
+    return (scoreBoard[0] === move && scoreBoard[3] === move && scoreBoard[6] === move) ||
+    (scoreBoard[1] === move && scoreBoard[4] === move && scoreBoard[7] === move) ||
+    (scoreBoard[2] === move && scoreBoard[5] === move && scoreBoard[8] === move);
+}
+
+function checkDiagonal(move) {
+    return (scoreBoard[0] === move && scoreBoard[4] === move && scoreBoard[8] === move) ||
+    (scoreBoard[2] === move && scoreBoard[4] === move && scoreBoard[6] === move);
 }
 
 initializePVP();
 addCellEvents();
+
+
+//implement winning conditions

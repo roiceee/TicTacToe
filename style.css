@@ -78,10 +78,6 @@ button {
     background-color: var(--clr-yellow) ;
 }
 
-.current-turn::after{
-    content: "'s turn"
-}
-
 .game-mode::before{
     content: "Current mode: "
 }
