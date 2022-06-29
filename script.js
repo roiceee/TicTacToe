@@ -20,6 +20,8 @@ let scoreBoard = new Array(9);
 let turn = true;
 let playerOne;
 let playerTwo;
+const sound = new Audio("sounds/cellSound.mp3");
+const winSound = new Audio("sounds/winSound.mp3");
 
 const playerX = () => {
     let score = 0;
@@ -63,21 +65,39 @@ async function mainEvents(cell) {
     cell.setAttribute('data-marked', "true");
     const cellIndex = cell.getAttribute("data-index");
     const currentPlayer = returnPlayerTurn();
+    playSound();
     addToScoreBoard(currentPlayer, cellIndex);
     await addMarktoDom(currentPlayer, cell);
     changeTurn();
     if (checkWinner(currentPlayer)){
+        playWinningSound();
         displayWinner(currentPlayer);
+        disableCells();
         setTimeout(() => {
             refreshGame();
         }, 5000);
-        //add score
 }
+}
+
+function disableCells() {
+    const cells = document.querySelectorAll(".cell");
+    cells.forEach((cell) => {
+        cell.setAttribute('data-marked', "true");
+    })
+}
+
+function playSound() {
+    sound.play();
+}
+
+function playWinningSound() {
+    winSound.play();
 }
 
 function displayWinner(player) {
     const currentTurnIndicator = document.querySelector(".current-turn");
     currentTurnIndicator.textContent = player.place() + " WINS!";
+
 }
 
 function refreshGame() {
@@ -86,7 +106,6 @@ function refreshGame() {
     cells.forEach((cell) => {
         cell.setAttribute('data-marked', "false");
         cell.textContent = "";
-
     })
     const currentTurnIndicator = document.querySelector(".current-turn");
     currentTurnIndicator.textContent = "X's turn!";
@@ -164,4 +183,4 @@ initializePVP();
 addCellEvents();
 
 
-//implement winning conditions
+//implement AI
