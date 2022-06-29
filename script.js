@@ -122,6 +122,7 @@ function refreshGame() {
     })
     const currentTurnIndicator = document.querySelector(".current-turn");
     currentTurnIndicator.textContent = "X's turn!";
+    gameController.turn = true;
 }
 
 
