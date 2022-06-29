@@ -14,7 +14,7 @@
 
 //______________________________________________________________________________________________________________________________________________
 
-let scoreBoard = ['','','','','','','','',''];
+let scoreBoard = new Array(9);
 
 //true - playerX || false - playerY
 let turn = true;
@@ -69,18 +69,19 @@ async function mainEvents(cell) {
     if (checkWinner(currentPlayer)){
         displayWinner(currentPlayer);
         setTimeout(() => {
-            refreshCells();
-        }, 3000);
+            refreshGame();
+        }, 5000);
         //add score
 }
 }
 
 function displayWinner(player) {
     const currentTurnIndicator = document.querySelector(".current-turn");
-    currentTurnIndicator.textContent = player.place() + " Wins!";
+    currentTurnIndicator.textContent = player.place() + " WINS!";
 }
 
-function refreshCells() {
+function refreshGame() {
+    scoreBoard = new Array(9);
     const cells = document.querySelectorAll(".cell");
     cells.forEach((cell) => {
         cell.setAttribute('data-marked', "false");
