@@ -20,19 +20,32 @@ const gameController = (() => {
 
     //true - playerX || false - playerY
     let turn = true;
+    let turns = 0;
     let playerOne;
     let playerTwo;
     const sound = new Audio("sounds/cellSound.mp3");
     const winSound = new Audio("sounds/winSound.mp3");
+    const drawSound = new Audio("sounds/drawSound.mp3");
     const playSound = () => sound.play();
     const playWinSound = () => winSound.play();
+    const playDrawSound = () => drawSound.play();
+    const increaseTurn = function() {
+        this.turns++;
+    }
+    const resetTurn = function() {
+        this.turns = 0;
+    }
     return {
         scoreBoard,
         turn,
         playerOne,
         playerTwo,
         playWinSound,
-        playSound
+        playSound,
+        playDrawSound,
+        increaseTurn,
+        resetTurn,
+        turns
     }    
 })();
 
@@ -89,7 +102,23 @@ async function mainEvents(cell) {
         setTimeout(() => {
             refreshGame();
         }, 5000);
+    }else if (checkDraw()) {
+        playDrawSound();
+        displayDraw();
+        disableCells();
+        setTimeout(() => {
+            refreshGame();
+        }, 5000);
+    }
 }
+
+function checkDraw() {
+    return gameController.turns === 9;
+}
+
+function displayDraw() {
+    const currentTurnIndicator = document.querySelector(".current-turn");
+    currentTurnIndicator.textContent = "IT'S A DRAW!";
 }
 
 function disableCells() {
@@ -105,6 +134,10 @@ function playSound() {
 
 function playWinningSound() {
     gameController.playWinSound();
+}
+
+function playDrawSound() {
+    gameController.playDrawSound();
 }
 
 function displayWinner(player) {
@@ -123,6 +156,7 @@ function refreshGame() {
     const currentTurnIndicator = document.querySelector(".current-turn");
     currentTurnIndicator.textContent = "X's turn!";
     gameController.turn = true;
+    gameController.resetTurn();
 }
 
 
@@ -173,6 +207,7 @@ async function addMarktoDom(player, cell) {
 
 function checkWinner(player) {
     const move = player.place();
+    gameController.increaseTurn();
     return checkHorizontal(move) || checkVertical(move) || checkDiagonal(move);
 }
 
